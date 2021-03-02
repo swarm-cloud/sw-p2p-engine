@@ -59,7 +59,7 @@ Create P2PEngineSW instance explicitly to customize configuration.
     ...
 </head>
 <script>
-const engine = new P2PEngineSW({
+var engine = new P2PEngineSW({
     logLevel: 'debug',
     swFile: 'sw.js',          // service worker file name
     swScope: './',            // service worker scope
