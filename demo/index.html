@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>p2p demo</title>
+</head>
+<!--<script src="https://cdn.jsdelivr.net/npm/swarmcloud-sw@latest"></script>-->
+<script src="../dist/sw-p2p-engine.min.js"></script>
+<img src='' id='myImage'>
+<body>
+<script>
+
+    var engine = new P2PEngineSW({
+        // swEnabled: false,
+        logLevel: 'debug',
+        // p2pEnabled: false,
+    });
+
+    engine.registerServiceWorker().then(function (registration) {
+        console.info('ServiceWorker registration successful with scope: ', registration.scope);
+        if (P2PEngineSW.isSupported()) {
+            engine.start();
+        }
+    }).catch(() => {
+        console.info('ServiceWorker registration failed')
+    })
+
+    setTimeout(() => {
+
+        getImage('../image/webrtc.png');
+
+    }, 10000);
+
+    function getImage(url) {
+        var myImage = new Image(300, 200);
+        myImage.src = url;
+        document.body.appendChild(myImage);
+    }
+
+</script>
+</body>
+<link crossorigin="anonymous" href="https://srv.carbonads.net/ads/CE7DT2QY.json?segment=placement:webtorrentio&callback=_carbonads_go">
+<audio src="moonlight.mp3" autoplay controls loop style="float: left; margin-top: 400px"></audio>
+</html>
+

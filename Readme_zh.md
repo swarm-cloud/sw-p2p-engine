@@ -12,7 +12,7 @@
 
 SW P2P Engine 采用最先进的HTML5技术——WebRTC来做点对点传输，ServiceWorker来代理网络请求，还有IndexedDB来缓存数据，打造了一个去中心化的静态资源加速网络。在不影响用户体验的前提下，利用终端设备的闲置带宽和少量的磁盘空间，创造一个可无限扩展的P2P网络，大幅节省网站的CDN成本。
 
-## Features
+## 特性
 - 浏览器原生支持，不需要安装任何插件，采用仿BT算法，在线人数越多效果越好
 - 支持大部分静态文件类型，包括js、css、图片和音频等
 - 数据加密传输
@@ -20,7 +20,7 @@ SW P2P Engine 采用最先进的HTML5技术——WebRTC来做点对点传输，S
 - 可与所有CDN搭配使用，无需改造服务端
 - Tracker服务器根据访问IP的ISP、地域等进行智能调度
 
-## Browser Support
+## 浏览器支持情况
 由于WebRTC已成为HTML5标准，目前大部分主流浏览器都已经支持。兼容性取决于浏览器是否支持 WebRTC, ServiceWorker 和 IndexedDB。
 
  兼容性|Chrome | Firefox | Mac Safari| 安卓微信/QQ | Opera | Edge | iOS Safari | IE |  
@@ -38,20 +38,43 @@ SwarmCloud | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ❌ |
 #### 网站迁移到HTTPS
 由于 Service Worker 需要在HTTPS下才能生效，请确保你的网站已经迁移到HTTPS。
 
-你可以使用 [Let's Encrypt](https://letsencrypt.org/) 来生成免费的证书。请参考 [这里](https://letsencrypt.org/getting-started/) 的教程.
+你可以使用 [Let's Encrypt](https://letsencrypt.org/) 来生成免费的证书。请参考 [这里](https://letsencrypt.org/getting-started/) 的教程。
 
-## 安装 P2P Engine 
+## 部署 Service Worker
+ServiceWorker 是实现P2P加速的关键。只要将 [sw.js](./dist/sw.js) 部署到网站的根目录即可，如 https://yourwebsite.com/sw.js
+<br>
+同样, 可以自定义配置或者采用默认配置。
 
-#### 快速安装
+#### 快速集成
+拷贝 [sw.js](./dist/sw.js) 到服务器的域名根目录， 并确保可以通过 https://yourwebsite.com/sw.js 访问。
+
+#### 自定义集成
+在服务器的域名根目录创建一个 sw.js 文件，并引入 PeerWorker ，创建实例：
+```javascript
+// import peer-worker into service worker
+self.importScripts('https://cdn.jsdelivr.net/npm/swarmcloud-sw@latest/dist/peer-worker.min.js');
+
+var worker = new PeerWorker({
+    version: 1,
+    logLevel: 'debug',
+    allowOrigins: ['https://third-party-site.com'],    // Allow some third party origins to request from p2p
+});
+worker.register();
+```
+部署完成后，SwarmCloud 的 ServiceWorker 将拦截全站的网络请求，并在P2P和CDN之间智能切换。
+
+## 集成 P2P Engine 
+
+#### 快速集成
 如果不需要自定义配置，只需要在 index.html 加上一行脚本即可：
 ```html
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/swarmcloud-sw@latest?auto=true"></script>
+    <script async src="https://cdn.jsdelivr.net/npm/swarmcloud-sw@latest?auto=true"></script>
     ...
 </head>
 ```
 
-#### 自定义安装
+#### 自定义集成
 引入脚本，并创建 P2PEngineSW 实例，该实例可以自定义配置：
 ```html
 <head>
@@ -71,7 +94,7 @@ engine.registerServiceWorker().then(function (registration) {
     if (P2PEngineSW.isSupported()) {
         engine.start();
     }
-}).catch(() => {
+}).catch(function() {
    console.info('ServiceWorker registration failed')
 })
 </script>
@@ -85,29 +108,6 @@ import P2PEngineSW from 'swarmcloud-sw';
 
 // Create P2PEngineSW instance...
 ```
-
-## 部署 Service Worker
-ServiceWorker 是实现P2P加速的关键。只要将 [sw.js](https://github.com/swarm-cloud/sw-p2p-engine/blob/master/dist/sw.js) 部署到网站的根目录即可，如 https://yourwebsite.com/sw.js
-<br>
-同样, 可以自定义配置或者采用默认配置。
-
-#### 快速安装
-拷贝 [sw.js](https://github.com/swarm-cloud/sw-p2p-engine/blob/master/dist/sw.js) 到服务器的域名根目录， 并确保可以通过 https://yourwebsite.com/sw.js 访问。
-
-#### 自定义安装
-在服务器的域名根目录创建一个 sw.js 文件，并引入 PeerWorker ，创建实例：
-```javascript
-// import peer-worker into service worker
-self.importScripts('https://cdn.jsdelivr.net/npm/swarmcloud-sw@latest/dist/peer-worker.min.js');
-
-var worker = new PeerWorker({
-    version: 1,
-    logLevel: 'debug',
-    allowOrigins: ['https://third-party-site.com'],    // Allow some third party origins to request from p2p
-});
-worker.register();
-```
-部署完成后，SwarmCloud 的 ServiceWorker 将拦截全站的网络请求，并在P2P和CDN之间智能切换。
 
 ## API文档
 参见 [API.md](https://www.cdnbye.com/cn/views/sw/API.html)

@@ -4,13 +4,13 @@
 <a href="" target="_blank" rel="noopener noreferrer"><img width="250" src="https://cdnbye.oss-cn-beijing.aliyuncs.com/pic/cdnbye.png" alt="cdnbye logo"></a>
 <a href="" target="_blank" rel="noopener noreferrer"><img width="250" src="./image/webrtc.png" alt="webrtc logo"></a>
 </p>
-<h4 align="center">Let your website become your unlimitedly scalable CDN.</h4>
+<h4 align="center">Speed up your website using WebRTC and ServiceWorker.</h4>
 <p align="center">
   <a href="https://www.npmjs.com/package/swarmcloud-sw"><img src="https://img.shields.io/npm/v/swarmcloud-sw.svg?style=flat" alt="npm"></a>
   <a href="https://www.jsdelivr.com/package/npm/swarmcloud-sw"><img src="https://data.jsdelivr.com/v1/package/npm/swarmcloud-sw/badge" alt="jsdelivr"></a>
 </p>
 
-SW P2P Engine creates a communal, distributed CDN with the latest HTML5 APIs — WebRTC to connect browsers, ServiceWorker to fulfill requests, IndexedDB to cache data, and WebCrypto to do it all securely. And it never impacts the user experience. Ever. This lightweight library uses only a small portion of spare bandwidth, imperceptible CPU, 300MB of browser cache. 
+SW P2P Engine creates a communal, distributed CDN with the latest HTML5 APIs — WebRTC to connect browsers, ServiceWorker to fulfill requests, IndexedDB to cache data, and WebCrypto to do it all securely. And it never impacts the user experience. Ever. This lightweight library uses only a small portion of spare bandwidth, imperceptible CPU, 100MB of browser cache. 
 
 ## Features
 - WebRTC data channels for lightweight peer-to-peer communication with no plugins
@@ -40,13 +40,37 @@ Secure your site with HTTPS, if it isn't already. HTTPS is required for Service 
 
 To secure your site with HTTPS, you can use [Let's Encrypt](https://letsencrypt.org/) for a free certificate and easy integration. See Let's Encrypt's starting instructions [here](https://letsencrypt.org/getting-started/) to secure your site.
 
-## Install P2P Engine 
+## Host Service Worker
+SwarmCloud's Service Worker is the magic sauce that powers P2P engine.
+Host SwarmCloud's Service Worker [sw.js](./dist/sw.js) at the root of your domain, i.e., https://yourwebsite.com/sw.js. After an asset is cached, every device watches for future requests for that asset and automatically retrieves it from SwarmCloud's peer-to-peer network instead of the more expensive, slower origin server (over WebRTC instead of HTTP).
+<br>
+You can customize configuration or use default one.
 
+#### Basic Usage
+Copy [sw.js](./dist/sw.js) to your server and make it available at https://yourwebsite.com/sw.js.
+
+#### Advanced Usage
+Create file named sw.js at the root of your domain, then import PeerWorker and add customize configurations:
+```javascript
+// import peer-worker into service worker
+self.importScripts('https://cdn.jsdelivr.net/npm/swarmcloud-sw@latest/dist/peer-worker.min.js');
+
+var worker = new PeerWorker({
+    version: 1,
+    logLevel: 'debug',
+    allowOrigins: ['https://third-party-site.com'],    // Allow some third party origins to request from p2p
+});
+worker.register();
+```
+Once added，SwarmCloud's imported Service Worker will handle CDN 'fetch' events to accelerate your website. All 'fetch' events not 'hit' by P2P network will fall through to CDN network.
+
+## Install P2P Engine 
+Again, you can customize configuration or use default one.
 #### Basic Usage
 Add one line of script to your index.html, this will setup p2p engine automatically with default configuration.
 ```html
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/swarmcloud-sw@latest?auto=true"></script>
+    <script async src="https://cdn.jsdelivr.net/npm/swarmcloud-sw@latest?auto=true"></script>
     ...
 </head>
 ```
@@ -71,7 +95,7 @@ engine.registerServiceWorker().then(function (registration) {
     if (P2PEngineSW.isSupported()) {
         engine.start();
     }
-}).catch(() => {
+}).catch(function() {
    console.info('ServiceWorker registration failed')
 })
 </script>
@@ -85,30 +109,6 @@ import P2PEngineSW from 'swarmcloud-sw';
 
 // Create P2PEngineSW instance...
 ```
-
-## Host Service Worker
-SwarmCloud's Service Worker is the magic sauce that powers P2P engine.
-Host SwarmCloud's Service Worker [sw.js](https://github.com/swarm-cloud/sw-p2p-engine/blob/master/dist/sw.js) at the root of your domain, i.e., https://yourwebsite.com/sw.js. After an asset is cached, every device watches for future requests for that asset and automatically retrieves it from SwarmCloud's peer-to-peer network instead of the more expensive, slower origin server (over WebRTC instead of HTTP).
-<br>
-Again, you can customize configuration or use default one.
-
-#### Basic Usage
-Copy [sw.js](https://github.com/swarm-cloud/sw-p2p-engine/blob/master/dist/sw.js) to your server and make it available at https://yourwebsite.com/sw.js.
-
-#### Advanced Usage
-Create file named sw.js at the root of your domain, then import PeerWorker and add customize configurations:
-```javascript
-// import peer-worker into service worker
-self.importScripts('https://cdn.jsdelivr.net/npm/swarmcloud-sw@latest/dist/peer-worker.min.js');
-
-var worker = new PeerWorker({
-    version: 1,
-    logLevel: 'debug',
-    allowOrigins: ['https://third-party-site.com'],    // Allow some third party origins to request from p2p
-});
-worker.register();
-```
-Once added，SwarmCloud's imported Service Worker will handle CDN 'fetch' events to accelerate your website. All 'fetch' events not 'hit' by P2P network will fall through to CDN network.
 
 ## API and Configuration
 See [API.md](https://www.cdnbye.com/en/views/sw/API.html)
