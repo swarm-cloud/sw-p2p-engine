@@ -70,7 +70,7 @@ Again, you can customize configuration or use default one.
 Add one line of script to your index.html, this will setup p2p engine automatically with default configuration.
 ```html
 <head>
-    <script async src="https://cdn.jsdelivr.net/npm/swarmcloud-sw@latest?auto=true"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swarmcloud-sw@latest?auto=true"></script>
     ...
 </head>
 ```

@@ -69,7 +69,7 @@ worker.register();
 如果不需要自定义配置，只需要在 index.html 加上一行脚本即可：
 ```html
 <head>
-    <script async src="https://cdn.jsdelivr.net/npm/swarmcloud-sw@latest?auto=true"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swarmcloud-sw@latest?auto=true"></script>
     ...
 </head>
 ```
