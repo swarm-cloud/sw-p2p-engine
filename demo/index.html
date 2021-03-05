@@ -21,8 +21,8 @@
         if (P2PEngineSW.isSupported()) {
             engine.start();
         }
-    }).catch(() => {
-        console.info('ServiceWorker registration failed')
+    }).catch((err) => {
+        console.info('ServiceWorker registration failed ', err)
     })
 
     setTimeout(() => {

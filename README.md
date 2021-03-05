@@ -47,7 +47,7 @@ Host SwarmCloud's Service Worker [sw.js](./dist/sw.js) at the root of your domai
 You can customize configuration or use default one.
 
 #### Basic Usage
-Copy [sw.js](./dist/sw.js) to your server and make it available at https://yourwebsite.com/sw.js.
+Copy [sw.js](./dist/) to your server and make it available at https://yourwebsite.com/sw.js.
 
 #### Advanced Usage
 Create file named sw.js at the root of your domain, then import PeerWorker and add customize configurations:
@@ -57,7 +57,7 @@ self.importScripts('https://cdn.jsdelivr.net/npm/swarmcloud-sw@latest/dist/peer-
 
 var worker = new PeerWorker({
     version: 1,
-    logLevel: 'debug',
+    logLevel: 'warn',
     allowOrigins: ['https://third-party-site.com'],    // Allow some third party origins to request from p2p
 });
 worker.register();
@@ -95,8 +95,8 @@ engine.registerServiceWorker().then(function (registration) {
     if (P2PEngineSW.isSupported()) {
         engine.start();
     }
-}).catch(function() {
-   console.info('ServiceWorker registration failed')
+}).catch(function(err) {
+    console.info('ServiceWorker registration failed ', err)
 })
 </script>
 ```

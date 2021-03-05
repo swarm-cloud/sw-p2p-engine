@@ -46,7 +46,7 @@ ServiceWorker 是实现P2P加速的关键。只要将 [sw.js](./dist/sw.js) 部�
 同样, 可以自定义配置或者采用默认配置。
 
 #### 快速集成
-拷贝 [sw.js](./dist/sw.js) 到服务器的域名根目录， 并确保可以通过 https://yourwebsite.com/sw.js 访问。
+拷贝 [sw.js](./dist/) 到服务器的域名根目录， 并确保可以通过 https://yourwebsite.com/sw.js 访问。
 
 #### 自定义集成
 在服务器的域名根目录创建一个 sw.js 文件，并引入 PeerWorker ，创建实例：
@@ -56,7 +56,7 @@ self.importScripts('https://cdn.jsdelivr.net/npm/swarmcloud-sw@latest/dist/peer-
 
 var worker = new PeerWorker({
     version: 1,
-    logLevel: 'debug',
+    logLevel: 'warn',
     allowOrigins: ['https://third-party-site.com'],    // Allow some third party origins to request from p2p
 });
 worker.register();
@@ -94,8 +94,8 @@ engine.registerServiceWorker().then(function (registration) {
     if (P2PEngineSW.isSupported()) {
         engine.start();
     }
-}).catch(function() {
-   console.info('ServiceWorker registration failed')
+}).catch(function(err) {
+    console.info('ServiceWorker registration failed ', err)
 })
 </script>
 ```
