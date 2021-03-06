@@ -4,10 +4,21 @@
     <meta charset="UTF-8">
     <title>p2p demo</title>
 </head>
-<!--<script src="https://cdn.jsdelivr.net/npm/swarmcloud-sw@latest"></script>-->
-<script src="../dist/sw-p2p-engine.min.js"></script>
-<img src='' id='myImage'>
+<script src="https://cdn.jsdelivr.net/npm/swarmcloud-sw@latest"></script>
+<!--<script src="../dist/sw-p2p-engine.min.js"></script>-->
 <body>
+<h1 style="text-align: center">Demo Website</h1>
+
+<h3>Same-Origin image will appear here in 3 seconds 同域图片3秒后下载</h3>
+<img src='' id='sameorigin' style="width: 300px">
+
+<h3>Cross-Origin image will appear here in 6 seconds 跨域图片6秒后下载</h3>
+<img src='' id='crossorigin' style="width: 300px">
+
+<h3>Audio playing 播放音频</h3>
+<audio src="moonlight.mp3" autoplay controls loop style="float: left;"></audio>
+
+</body>
 <script>
 
     var engine = new P2PEngineSW({
@@ -27,19 +38,21 @@
 
     setTimeout(() => {
 
-        getImage('../image/webrtc.png');
+        getImage('../image/webrtc.png', 'sameorigin');
 
-    }, 10000);
+    }, 3000);
 
-    function getImage(url) {
-        var myImage = new Image(300, 200);
+    setTimeout(() => {
+
+        getImage('https://cdn.rawgit.com/jakearchibald/80368b84ac1ae8e229fc90b3fe826301/raw/ad55049bee9b11d47f1f7d19a73bf3306d156f43/dog.svg', 'crossorigin');
+
+    }, 6000);
+
+    function getImage(url, id) {
+        var myImage = document.getElementById(id);
         myImage.src = url;
-        document.body.appendChild(myImage);
     }
 
 </script>
-</body>
-<link crossorigin="anonymous" href="https://srv.carbonads.net/ads/CE7DT2QY.json?segment=placement:webtorrentio&callback=_carbonads_go">
-<audio src="moonlight.mp3" autoplay controls loop style="float: left; margin-top: 400px"></audio>
 </html>
 

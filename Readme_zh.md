@@ -57,7 +57,7 @@ self.importScripts('https://cdn.jsdelivr.net/npm/swarmcloud-sw@latest/dist/peer-
 var worker = new PeerWorker({
     version: 1,
     logLevel: 'warn',
-    allowOrigins: ['https://third-party-site.com'],    // Allow some third party origins to request from p2p
+    allowOrigins: ['https://third-party-site.com'],    // 允许加速的第三方Origin白名单，请参考 请参考：https://www.cdnbye.com/cn/views/sw/API.html#%E7%AC%AC%E4%B8%89%E6%96%B9%E8%B5%84%E6%BA%90%E5%8A%A0%E9%80%9F
 });
 worker.register();
 ```
@@ -66,13 +66,14 @@ worker.register();
 ## 集成 P2P Engine 
 
 #### 快速集成
-如果不需要自定义配置，只需要在 index.html 加上一行脚本即可：
+如果不需要自定义配置，只需要在网站主页 index.html 加上一行脚本即可：
 ```html
 <head>
     <script src="https://cdn.jsdelivr.net/npm/swarmcloud-sw@latest?auto=true"></script>
     ...
 </head>
 ```
+注意，参数必须是"auto=true"才会自动安装。 
 
 #### 自定义集成
 引入脚本，并创建 P2PEngineSW 实例，该实例可以自定义配置：
@@ -111,6 +112,9 @@ import P2PEngineSW from 'swarmcloud-sw';
 
 ## API文档
 参见 [API.md](https://www.cdnbye.com/cn/views/sw/API.html)
+
+## 开源赞助计划
+所有开源项目或者技术博客等非营利性站点，均可申请永久免费使用，请联系客服开通服务。
 
 ## 相关项目
 - [hlsjs-p2p-engine](https://gitee.com/cdnbye/hlsjs-p2p-engine) - HLS协议的Web端P2P流媒体方案。

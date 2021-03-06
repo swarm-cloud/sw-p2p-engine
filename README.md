@@ -10,7 +10,7 @@
   <a href="https://www.jsdelivr.com/package/npm/swarmcloud-sw"><img src="https://data.jsdelivr.com/v1/package/npm/swarmcloud-sw/badge" alt="jsdelivr"></a>
 </p>
 
-SW P2P Engine creates a communal, distributed CDN with the latest HTML5 APIs — WebRTC to connect browsers, ServiceWorker to fulfill requests, IndexedDB to cache data, and WebCrypto to do it all securely. And it never impacts the user experience. Ever. This lightweight library uses only a small portion of spare bandwidth, imperceptible CPU, 100MB of browser cache. 
+SW P2P Engine creates a communal, distributed CDN with the latest HTML5 APIs — WebRTC to connect browsers, ServiceWorker to fulfill requests, IndexedDB to cache data, and WebCrypto to do it all securely. And it never impacts the user experience. Ever. This lightweight library uses only a small portion of spare bandwidth, imperceptible CPU, 150MB of browser cache. 
 
 ## Features
 - WebRTC data channels for lightweight peer-to-peer communication with no plugins
@@ -58,7 +58,7 @@ self.importScripts('https://cdn.jsdelivr.net/npm/swarmcloud-sw@latest/dist/peer-
 var worker = new PeerWorker({
     version: 1,
     logLevel: 'warn',
-    allowOrigins: ['https://third-party-site.com'],    // Allow some third party origins to request from p2p
+    allowOrigins: ['https://third-party-site.com'],    // Allow some third party origins to request from p2p, see https://www.cdnbye.com/en/views/sw/API.html#handle-third-party-requests
 });
 worker.register();
 ```
@@ -67,13 +67,14 @@ Once added，SwarmCloud's imported Service Worker will handle CDN 'fetch' events
 ## Install P2P Engine 
 Again, you can customize configuration or use default one.
 #### Basic Usage
-Add one line of script to your index.html, this will setup p2p engine automatically with default configuration.
+Add one line of script to your website homepage index.html, this will setup p2p engine automatically with default configuration.
 ```html
 <head>
     <script src="https://cdn.jsdelivr.net/npm/swarmcloud-sw@latest?auto=true"></script>
     ...
 </head>
 ```
+Note that the script parameter must be "auto = true".
 
 #### Advanced Usage
 Create P2PEngineSW instance explicitly to customize configuration.
@@ -112,6 +113,9 @@ import P2PEngineSW from 'swarmcloud-sw';
 
 ## API and Configuration
 See [API.md](https://www.cdnbye.com/en/views/sw/API.html)
+
+## Open Source Sponsorship
+All non-profit sites such as open source projects and blogs can apply for permanent free use, please contact customer service to activate.
 
 ## Related Projects
 - [hlsjs-p2p-engine](https://github.com/cdnbye/hlsjs-p2p-engine) - Web Video Delivery Technology with No Plugins for hls.js.
