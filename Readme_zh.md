@@ -4,7 +4,7 @@
 <a href="" target="_blank" rel="noopener noreferrer"><img width="250" src="https://cdnbye.oss-cn-beijing.aliyuncs.com/pic/cdnbye.png" alt="cdnbye logo"></a>
 <a href="" target="_blank" rel="noopener noreferrer"><img width="250" src="./image/webrtc.png" alt="webrtc logo"></a>
 </p>
-<h4 align="center">网站静态资源P2P加速神器</h4>
+<h4 align="center">去中心化静态资源加速网络</h4>
 <p align="center">
   <a href="https://www.npmjs.com/package/swarmcloud-sw"><img src="https://img.shields.io/npm/v/swarmcloud-sw.svg?style=flat" alt="npm"></a>
   <a href="https://www.jsdelivr.com/package/npm/swarmcloud-sw"><img src="https://data.jsdelivr.com/v1/package/npm/swarmcloud-sw/badge" alt="jsdelivr"></a>
@@ -43,7 +43,7 @@ SwarmCloud | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ❌ |
 ## 部署 Service Worker
 ServiceWorker 是实现P2P加速的关键。只要将 [sw.js](./dist/sw.js) 部署到网站的根目录即可，如 https://yourwebsite.com/sw.js
 <br>
-同样, 可以自定义配置或者采用默认配置。
+可以自定义配置或者采用默认配置。
 
 #### 快速集成
 拷贝 [sw.js](./dist/) 到服务器的域名根目录， 并确保可以通过 https://yourwebsite.com/sw.js 访问。
@@ -57,14 +57,14 @@ self.importScripts('https://cdn.jsdelivr.net/npm/swarmcloud-sw@latest/dist/peer-
 var worker = new PeerWorker({
     version: 1,
     logLevel: 'warn',
-    allowOrigins: ['https://third-party-site.com'],    // 允许加速的第三方Origin白名单，请参考 请参考：https://www.cdnbye.com/cn/views/sw/API.html#%E7%AC%AC%E4%B8%89%E6%96%B9%E8%B5%84%E6%BA%90%E5%8A%A0%E9%80%9F
+    allowOrigins: ['https://third-party-site.com'],    // 允许加速的第三方Origin白名单，请参考：https://www.cdnbye.com/cn/views/sw/API.html#%E7%AC%AC%E4%B8%89%E6%96%B9%E8%B5%84%E6%BA%90%E5%8A%A0%E9%80%9F
 });
 worker.register();
 ```
 部署完成后，SwarmCloud 的 ServiceWorker 将拦截全站的网络请求，并在P2P和CDN之间智能切换。
 
 ## 集成 P2P Engine 
-
+P2P Engine 用于启动 ServiceWorker 并运行P2P调度逻辑。同样, 可以自定义配置或者采用默认配置。
 #### 快速集成
 如果不需要自定义配置，只需要在网站主页 index.html 加上一行脚本即可：
 ```html
@@ -109,6 +109,9 @@ import P2PEngineSW from 'swarmcloud-sw';
 
 // Create P2PEngineSW instance...
 ```
+
+## 验证
+打来调试控制台，如果有打印 "ServiceWorker registration successful with scope" 则表示已正常工作。
 
 ## API文档
 参见 [API.md](https://www.cdnbye.com/cn/views/sw/API.html)

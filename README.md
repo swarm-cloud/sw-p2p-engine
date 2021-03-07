@@ -65,7 +65,7 @@ worker.register();
 Once added，SwarmCloud's imported Service Worker will handle CDN 'fetch' events to accelerate your website. All 'fetch' events not 'hit' by P2P network will fall through to CDN network.
 
 ## Install P2P Engine 
-Again, you can customize configuration or use default one.
+Add P2P Engine script to the `<head>` element of home page. Again, you can customize configuration or use default one.
 #### Basic Usage
 Add one line of script to your website homepage index.html, this will setup p2p engine automatically with default configuration.
 ```html
@@ -110,6 +110,9 @@ import P2PEngineSW from 'swarmcloud-sw';
 
 // Create P2PEngineSW instance...
 ```
+
+## Check if SwarmCloud works correctly
+Open Chrome Console, if it prints like "ServiceWorker registration successful with scope", that means SwarmCloud is already working.
 
 ## API and Configuration
 See [API.md](https://www.cdnbye.com/en/views/sw/API.html)
